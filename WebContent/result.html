@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="./css/result.css">-->
+    <link rel="stylesheet" href="./css/resultTwo.css">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    
+</head>
+<body>
+<div class="wrap">
+    <div class="top">
+        <!--二维码区域-->
+        <div class="erwerma">
+            <img class="showBig" src="img/DG.png" alt="">
+        </div>
+        <!--中间标题-->
+        <div class="top-t">
+            <img src="img/Group 28.png" height="100" width="1267"/>
+        </div>
+        <!--计时器-->
+        <div class="time">
+            <div class="timing">投票倒计时：<span id="time">05分00秒</span></div>
+        </div>
+    </div>
+    <div class="mid">
+        <!--左边剩余票数展示-->
+        <div class="mid_left">
+            <div class="surplus_show">
+                <img src="img/remain.png" alt="">
+            </div>
+            <div class="surplus">
+                <div class="surplus_ul">
+                    <ul id="ul06">
+                       <!--  <li>
+                            <div class="surplus_li">
+                                <div class="surplus_name">赵孙</div>
+                                <div class="surplus_remain">
+                                    <div class="surplus_num">10</div>
+                                    <div class="surplus_zhang">张</div>
+                                </div>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--中间个人排行榜-->
+        <div class="mid-mid">
+            <div class="theChars_text">
+                <img src="img/person.png" alt="">
+            </div>
+            <div class="mid-mid-mid">
+                <div class="theChars">
+                    <div class="theChars_show">
+                        <ul id="ul01">
+                 <!--            <li class="list">
+                                <div class="list_wrap">
+                                    <div class="theChars_index">1</div>
+                                    <div class="theChars_picture">
+                                        <img src="" alt="">
+                                    </div>
+                                    <div class="theChars_name">徐侨心</div>
+                                   		
+                                    <div class="theChars_department">
+                                        <div class="department_de">技术中心</div>
+                                        <div class="department_de1"></div>
+                                        <div class="department_de2"></div>
+                                    </div>
+                                    <div class="theChars_source">总分：<span class="source">222</span></div>
+                                                             
+                                    <i class="icon" ><img src="img/hide.png" alt=""></i>
+                                </div>
+                            </li>  -->
+      
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--团队排行榜-->
+        <div class="theCharsTeam">
+            <div class="theCharsTeam_show">
+                <img src="img/team.png" alt="">
+            </div>
+            <div class="theCharsTeam_list">
+                <ul id="ul03">
+                 <!--    <li class="list">
+                        <div class="list-outWrap">
+                            <div class="list_wrap">
+                             
+                                <div class="theCharsTeam_department">
+                                    <div class="department_de">技术中心技术中心</div>
+                                    <div class="department_de1"></div>
+                                    <div class="department_de2"></div>
+                                </div>
+                                <div class="heng">
+                                    <div class="theCharsTeam_source">
+                                        <div class="source_text">总分：</div>
+                                        <div class="source_num">214</div>
+                                    </div>
+                                    <div class="theCharsTeam_pj">
+                                        <div class="source_text">平均分：</div>
+                                        <div class="source_num">89</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="theCharsTeam_index">1</div>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--遮挡层-->
+    <div class="cover"></div>
+    <!--弹出框，展示投票详情-->
+    <div class="voteDetails">
+        <ul id="ul02">
+           <!--  <li class="voteDetails-li" style="background:red;">
+                <span class="voteDetails-name">你好啊+</span><span class="voteDetails-score">1</span>
+            </li>  -->
+           
+        </ul>
+        
+    </div>
+    <!--弹出层，展示大的二维码-->
+    <div class="bigerweima">
+        <img src="img/DG.png" alt="">
+    </div>
+</div>
+
+<script src="/code_dg/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/code_dg/js/result.js"></script>
+
+<script>
+
+    // 点击小箭头，显示投票详情和小箭头方向的改变，并且给当前选中的元素添加一个类名
+    function on(obtn){
+      	var thisURL = document.URL;
+        var getval =thisURL.split('?')[1];
+        var showvals= getval.split("&")[0];
+        var showval= showvals.split("=")[1];
+        
+        
+        var thisURL6 = document.URL;
+        var getval6 =thisURL6.split('?')[1];
+        var showvals6= getval6.split("&")[1];
+        var showval6= showvals6.split("=")[1];
+    	var pathName=window.document.location.pathname; 
+    	var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+    	var id=obtn
+    	var ul=$("#ul02")
+    	ul.html("")
+    	$.ajax({
+    		url:projectName+"/shiming",
+    		type:"post",
+    		data:{
+    			"id":id,
+    			"class":showval6,
+    			"game":showval
+    		},
+    		success:function(response){
+    			$.each(response.vote,function(i,v){	
+    					ul.append("<li class='voteDetails-li'>"+
+			    				"<span class='voteDetails-name'>"+v.player.name+"+</span><span class='voteDetails-score'>"+response.identity+"</span>"+
+			    				"</li>")
+    			})
+    		}
+    	})
+    	if (!$(this).hasClass("sel")){
+            $(this).addClass("sel")
+            $(this).find("img").attr("src", "img/show.png")
+            // 把遮挡层和投票详情显示出来
+            $(".cover").css({display: "block"})
+            $(".voteDetails").css({display: "block"})
+            // $(".cover").show(300)
+            // $(".voteDetails").show(300)
+        } else if ($(this).hasClass("sel")) {
+            // $(this).removeClass("sel")
+            // $(this).find("img").attr("src", "img/hide.png")
+        }
+    }
+/*     $(".icon").click(function () {
+        if (!$(this).hasClass("sel")) {
+            $(this).addClass("sel")
+            $(this).find("img").attr("src", "img/show.png")
+            // 把遮挡层和投票详情显示出来
+            $(".cover").css({display: "block"})
+            $(".voteDetails").css({display: "block"})
+            // $(".cover").show(300)
+            // $(".voteDetails").show(300)
+        } else if ($(this).hasClass("sel")) {
+            // $(this).removeClass("sel")
+            // $(this).find("img").attr("src", "img/hide.png")
+        }
+    }) */
+
+    // 点击遮挡层把遮挡层和投票详情隐藏，并把小箭头改变
+    $('.cover').click(function () {
+        $(".icon").removeClass("sel")
+        // $(".cover").hide(300)
+        // $(".voteDetails").hide(300)
+        $(".cover").css({display: "none"})
+        $(".voteDetails").css({display: "none"})
+        $(".icon").find("img").attr("src", "img/hide.png")
+        $(".bigerweima").css({display: "none"})
+    })
+
+    // 点击小的二维码显示大的二维码
+    $(".showBig").click(function () {
+        $("")
+    })
+
+    // 点击小的二维码显示大的二维码
+    $(".showBig").click(function () {
+        $(".bigerweima").css({display: "block"})
+        $(".cover").css({display: "block"})
+    })
+
+    // 设置定时器：5分钟
+    var maxtime = (4 * 60) + 59;
+    function CountDown() {
+        if (maxtime >= 0) {
+            minutes = Math.floor(maxtime / 60);
+            minutes = minutes > 9 ? minutes : '0'+ minutes
+            seconds = Math.floor(maxtime % 60);
+            seconds = seconds > 9 ? seconds : '0'+ seconds
+            msg = minutes + "分" + seconds + "秒";
+            document.getElementById("time").innerHTML = msg
+            --maxtime;
+        } else{
+            clearInterval(timer);
+        }
+    }
+    timer = setInterval("CountDown()", 1000);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  	<title>Dg_十戒</title>
+  	<link rel="stylesheet" href="./layui/css/layui.css">
+  	<script src="./layui/layui.js"></script>
+	<script src="https://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+	 <script src="./js/match.js"></script>
+  	<link rel="stylesheet" href="./css/match.css">
+	<style>
+	.con {
+		width:100%;
+		height:100%;
+		display:none;
+		float: left;
+	}
+	.nav {
+		list-style:none;
+		height:30px;
+		float:left;
+		display: inline-block;
+	}
+	.nav li {
+		width:198px;
+		height:67px;
+		background:#ccc;
+		color:#000;
+		text-align:center;
+		line-height:70px;
+	}
+	.on {
+		display:block;
+	}
+	.nav li.act {
+		background:#009688!important;
+		color:#fff;
+	}
+	</style>
+	<script type="text/javascript" >
+
+//Demo
+layui.use('laydate', function(){
+	
+  var laydate = layui.laydate;
+  //日期范围
+  laydate.render({
+	    elem: '#test5'
+	    ,type: 'datetime'
+	  });
+});
+  layui.use('upload', function(){
+	  var pathName=window.document.location.pathname; 
+		var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1); 
+  var $ = layui.jquery,
+  upload = layui.upload;
+  //赛事图片上传 接口
+   var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: projectName+'/index'
+    ,before: function(obj){
+      //预读本地文件示例，不支持ie8
+      obj.preview(function(index, file, result){
+        $('#demo1').attr('src', result); //图片链接（base64）
+      });
+    }
+    ,done: function(res){
+      //如果上传失败
+      if(res.ok){
+       $("#backimg").val(res.url);
+       $("#backimg").val();
+      }else{
+    	  return layer.msg('上传失败'); 
+      }
+    }
+    ,error: function(){
+      //演示失败状态，并实现重传
+      var demoText = $('#demoText');
+      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+      demoText.find('.demo-reload').on('click', function(){
+        uploadInst.upload();
+      });
+    }
+  });  
+  }); 
+
+</script>
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">Dg_十戒</div>
+  
+    <ul class="layui-nav layui-layout-left">
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <ul class="nav">
+    	<li id="li">上传活动</li>
+    	<li class="act" id="li">活动列表</li>
+    </ul>
+  </div> 
+  
+  <div class="layui-body">
+  	<div id = "upload" class="audio con" style="margin:10px 0 0 0;">
+	<div class="addMatch">	
+<form class="layui-form layui-form-pane"   enctype="multipart/form-data">
+  <div class="layui-form-item">
+    <label class="layui-form-label">赛事规则：</label>
+    <div class="layui-input-block">
+    <button type="button" class="layui-btn" id="test1">上传图片</button>   
+      <div class="layui-upload-list">
+       <img class="layui-upload-img" required  lay-verify="required" autocomplete="off"  id="demo1" width="100" height="100">
+        <p id="demoText"></p>
+      </div>
+    </div>
+  </div> 
+<div class="layui-form-item"> 
+      <label class="layui-form-label">分组选择框</label>
+      <div class="layui-input-inline">
+         <select name="name" id="name" >
+          <option value="">请选择赛事</option>
+          <optgroup label="请选择初赛">
+            <option value="初赛第一场 1">初赛第一场</option>
+            <option value="初赛第二场1">初赛第二场</option>
+            <option value="初赛第三场1">初赛第三场</option>
+            <option value="初赛第四场1">初赛第四场</option>
+          </optgroup>
+          <optgroup label="请选择复赛">
+            <option value="复赛2">复赛</option>
+          </optgroup>
+          <optgroup label="请选择半决赛">
+            <option value="半决赛3">半决赛</option>
+          </optgroup>
+          <optgroup label="请选择总决赛">
+            <option value="总决赛4">总决赛</option>
+          </optgroup>
+         </select>
+      </div>
+</div>
+	<input type="hidden" id="inp" >
+  <input type="text" id="backimg" name="backimg" style="display:none"/>
+  <div class="layui-form-item">
+    <label class="layui-form-label">个人票数：</label>
+    <div class="layui-input-block">
+      <input type="text" name="poll" id="poll" required  lay-verify="required" placeholder="请输入个人票数" autocomplete="off" class="layui-input"/>
+    </div>
+  </div>
+<!--   <div class="layui-form"> -->
+  <div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label">比赛开始时间</label>
+      <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="test5" name="starTime" placeholder="yyyy-MM-dd HH:mm:ss">
+      </div>
+    </div>
+</div>
+
+
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+		<button  id="addgame" class="layui-btn layui-btn-normal" >立即提交</button>
+		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+</div>
+    </div>
+   <div id = "upload" class="con Advertising on">
+  			 <table class="layui-hide" id="test" lay-filter="test"></table>
+        <script type="text/html" id="barDemo">
+          <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" >删除</a>
+          <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
+		   <a class="layui-btn layui-btn-xs" lay-event="huo">查看活动地址</a>
+        </script>
+    </div>
+  </div> 
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 中秋节活动（今今乐道） - 底部固定区域
+  </div>
+</div>
+
+
+<script>
+	$(document).ready(function(){
+		$(".nav #li").click(function(){
+			$(".nav #li").eq($(this).index()).addClass("act").siblings().removeClass("act");
+			$(".con").hide().eq($(this).index()).show();
+		})
+	})
+	
+</script>
+<script type="text/javascript">
+$("#addgame").click(function(){
+	var pathName=window.document.location.pathname; 
+	var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+	var name=$("#name").val();
+	var backimg = $("#backimg").val();
+	var poll = $("#poll").val();
+	var starTime = $("#poll").val();
+	
+	
+    $.ajax({
+        url:projectName+"/addGameView",
+        type:"post",
+    	data:{
+    		name:name,
+    		backimg:backimg,
+    		poll:poll,
+    		starTime:starTime,	
+    	}
+      
+      })
+});
+</script>
+</body>
+</html>
+	

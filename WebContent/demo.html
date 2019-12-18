@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="/code_dg/css/demo.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    
+    <title></title>
+    <style>
+        .weui-dialog__ft .default {
+            color: #000;
+        }
+        .weui-dialog__ft .primary {
+            color: #22A1CD;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+         <div class="top" id="image">
+    </div>
+        <div class="content">
+            <div class="hd">
+                <div>
+                    <span class="time">剩余时间<span>5分00秒</span></span>
+                    <span class="record" id="span"></span>
+                </div>
+            </div>
+            <ul class="list" id="ulul">
+            
+            </ul>
+        </div>
+        <div class="bottom">
+            <p>
+                <span class="num">剩余票数:<span>10</span></span>
+                <span class="sel">已选中<span>0</span>票</span>
+                <span class="btn"><a href="javascript:;">一键投票</a></span>
+            </p>
+        </div>
+        <div class="mask" style="display: none;">
+            <div class="bg">
+            </div>
+        </div>
+    </div>
+
+    <script>
+    window.onload = function() {
+    	var pathName=window.document.location.pathname; 
+    	var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+         var x = 5,interval;
+        var time = new Date('2222/2/2, 0:'+x+':0');
+        interval = setInterval(function() {
+            var m = time.getMinutes();//获取当前分
+            var s = time.getSeconds();//获取当前秒
+            
+            m = '' + m;
+            s = s < 10 ? ('0' + s) : ('' + s);
+            $.cookie("mm",m)
+            $.cookie("ss",s)
+             var mm=$.cookie("mm")
+             var ss=$.cookie("ss")
+             
+            $('.time').html('剩余时间'+mm+'分'+ss+'秒');
+            if(mm == 0 && ss == 0) {
+                clearInterval(interval);
+                $('.mask').show();
+                return;
+            }
+            time.setSeconds(ss-1);
+        },1000)
+      } 
+      
+  	  var thisURL = document.URL;
+      var getval =thisURL.split('?')[1];
+      var showvals= getval.split("&")[0];
+      var showval= showvals.split("=")[1];
+      
+      
+      var thisURL6 = document.URL;
+      var getval6 =thisURL6.split('?')[1];
+      var showvals6= getval6.split("&")[1];
+      var showval6= showvals6.split("=")[1];
+     
+  
+      $("#span").append("<a href='jilu.html?wechat="+showval+"&game1="+showval6+"' >投票记录</a>")
+      
+      $.ajax({
+  		  url: "/code_dg/num",
+  		  type:"post",
+  		  data:{
+  			  "wechat":showval,
+  			  "game1":showval6
+  		  },
+  		  success:function(response){
+  				  $(".num").html("剩余票数："+response.num1)	  
+  		  }
+  	  })
+      
+  	function num(){
+    	 
+    	  $("input[type='checkbox']:not(:checked)").attr("disabled",false)
+      	var thisURL = document.URL; 
+          var getval =thisURL.split('?')[1]; 
+          var showvals= getval.split("&")[0];
+          var showval1= showvals.split("=")[1];
+  	    
+          
+          var thisURL1 = document.URL; 
+          var getval1 =thisURL1.split('?')[1]; 
+          var showvals1= getval1.split("&")[1];
+          var showval3= showvals1.split("=")[1];
+         
+         
+  	   var chk_value =[]; 
+  	    $('input[type="checkbox"]:checked').each(function(){ 
+  	        chk_value.push(this.value);
+  	     
+  	    });
+          $.ajax({
+    		  url: "/code_dg/num",
+    		  type:"post",
+    		  data:{
+    			"wechat":showval,
+    			 "game1":showval6
+    		  },
+    		  success:function(response){
+    			  if(response.num1<=0){
+    				  $.toptip(response.mag);
+    				 $("input[type='checkbox']").attr("disabled","disabled")
+    			  }else if(response.num1>0){
+    			      var a=$("input[type='checkbox']:checked").length;
+  			   		var a1=response.num1-a
+  			        $('.num').html('剩余票数：'+a1);
+  			        $('.sel').html('已选中'+a+'票');
+  			      if(a1==0){
+  			    	$.toptip("您票数已经用完！");
+  			    	$("input[type='checkbox']:not(:checked)").attr("disabled","true")
+		        	} 	
+  			        if(a1>=0){
+  			        	   $('.btn').click(function(){
+  			      			 $.confirm({
+		  			    	        title: '确认投票',
+		  			    	        text: '<p>您当前剩余'+a1+'票</p><p>确定投给选中的'+a+'人</p>',
+		  			    	        onOK: function(){
+		  			    	        	  	$.ajax({
+			  			    	        		url: "/code_dg/jiafen",
+			  			    	        		type:"post",
+			  			    	        		 traditional: true,
+			  			    	        		data:{
+			  			    	        			 "id": chk_value,
+			  			    	        			 "zhi":response.identity,
+			  			    	        			 "game1":showval3,
+			  			    	        			 "wechat":showval1 
+			  			    	        		},
+			  			    	        		success:function(response){
+			  			    	        			if(response.msg!=null){
+			  			    	        				$.toptip(response.msg);
+			  			    	        			}else
+			  			    	        			if(response.count2==0){
+			  			    	        				
+			  			    	        				$.toast("投票成功！"); 
+				  			    		    	         // location.reload();
+			  			    	        			}
+			  			    	        		}
+			  			    	        	})
+		  			    	        	
+		  			    	      
+		  			    	            }
+		  			    	       });
+  			  			  	 
+  					      })		  
+  			        }
+    			  }
+    			
+    		  }
+    	  })
+     }
+     
+    </script>
+    <script type="text/javascript" src="/code_dg/js/index.js"></script>
+</body>
+</html>

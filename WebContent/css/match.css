@@ -1,0 +1,42 @@
+*{
+	margin:0;
+	padding:0;
+}
+.personCon{
+  width: 90%;
+  height: 200px;
+  display:none;
+  float: left;
+}
+.personNav{
+  float: left;
+}
+.personNav li{
+  width: 80px;
+  height: 67px;
+  background-color: #ccc;
+  color:#000;
+  text-align: center;
+  line-height: 50px;
+}
+.pseronOn{
+  display: block;
+  float:left;
+}
+.personNav li.perconact{
+  background-color: #333;
+  color:#fff;
+}
+.matchBig{
+  margin: 20px 20px 20px 20px;
+}
+.matchName{
+  margin: 10px 10px 10px 10px; 
+}
+/*添加赛事*/
+.addMatch{
+  width: 305 px;
+  height: auto;
+  display: block;
+}
+/*添加赛事*/

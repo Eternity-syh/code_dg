@@ -1,0 +1,323 @@
+html, body, div, p, ul, li, input {
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    text-decoration: none;
+  }
+  ul {
+    list-style: none;
+  }
+  html, body {
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+    height: auto;
+  }
+  .top {
+    width: 100%;
+    height: auto;
+    /* position: relative; */
+  }
+  .top img {
+    width: 100%;
+    height: auto;
+  }
+  .content {
+    height: auto;
+  }
+  .content .hd {
+    background-color: #ccc;
+  }
+  .content .hd p {
+    font-size: 12px;
+    line-height: 35px;
+    padding: 0 10px;
+  }
+  .content .hd p .time {
+    
+  }
+  .content .hd p .right {
+    float: right;
+  }
+  .content .hd p .right .search {
+    padding: 5px;
+    margin-right: 5px;
+    color: #c9cbcc;
+    border: 0;
+    border-radius: 4px;
+    width: 140px;
+  }
+  .content .hd p .right .record {
+    color: #000;
+  }
+  .content .list {
+    margin-top: 5px;
+    padding: 0 5px;
+    margin-bottom: 60px;
+  }
+  .content .list li {
+    margin-bottom: 5px;
+    background-color: #d8d8d8;
+    font-size: 14px;
+    padding: 5px;
+    position: relative;
+  }
+  .content .list li .photo {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 3px;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+  .content .list li .photo img {
+    width: 100%;
+    height: 100%;
+    vertical-align: bottom;
+  }
+  .content .list li .name {
+    display: inline-block;
+    margin-left: 5px;
+  }
+  
+  .content .list li .name p {
+    font-size: 16px;
+  }
+  .content .list li .name p:last-child {
+    font-size: 12px;
+  }
+  .content .list li .score {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    margin-left: 20px;
+    font-size: 16px;
+  }
+  .content .list li .select {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .content .list li .select input {
+    width:100%;
+    height:100%;
+    display: inline-block;
+    text-align: center;
+    line-height: 18px;
+    position: relative;
+  }
+  .content .list li .select input::before {
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: #FFFFFF;
+      box-sizing: border-box;
+      border: 1px solid #d9d9d9;
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  .content .list li .select input:checked::before {
+    content: '\2713';
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-weight: 700;
+    text-align: center;
+    display: inline-block;
+  }
+  .content .list li .select .span {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: #fff;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+  }
+  .content .list li .select .active::before {
+    content: '\2713';
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 18px;
+    line-height: 18px;
+    font-weight: 700;
+    text-align: center;
+    display: inline-block;
+  }
+  .content .bd {
+    background-color: #ccc;
+    padding: 10px 0;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+  .content .bd p {
+    font-size: 14px;
+    line-height: 35px;
+    padding: 0 10px;
+  }
+  .content .bd p .right {
+    float: right;
+  }
+  .content .bd p .right .btn {
+    padding: 5px 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    color: #000;
+  }
+  .mask {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 5;
+  }
+  .mask .tanc {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 40%;
+    border-radius: 5px;
+    background-color: #fff;
+    text-align: center;
+    line-height: 100px;
+    height: auto;
+    z-index: 6;
+  }
+  .succ {
+    position: fixed;
+    width: 60%;
+    height: 15%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 100px;
+    z-index: 6;
+  }
+  .cover {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 5;
+  }
+  .cover .conf {
+    position: fixed;
+    width: 60%;
+    height: 20%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    /* line-height: 100px; */
+    z-index: 6;
+  }
+  .cover .conf h3 {
+      font-weight: 500;
+      color: #000;
+      line-height: 44px;
+      font-size: 16px;
+  }
+  .cover .conf p {
+      font-size: 14px;
+      color: #333;
+  }
+  .cover .conf .button {
+      width: 100%;
+  }
+  .cover .conf .button .cancel, .conf .button .confirm {
+      display: inline-block;
+      width: 50%;
+      line-height: 44px;
+      float: left;
+      font-weight: 500;
+  }
+  .cover .conf .button .confirm {
+    color: rgb(2, 187, 0);
+  }
+
+  .contain {
+      width: 100%;
+      height: auto;
+      background-color: rgb(236, 233, 233);
+  }
+  .recordList {
+      width: 100%;
+      height: auto;
+      margin: 0;
+  }
+  .recordList h3 {
+      line-height: 26px;
+      font-size: 14px;
+      color: #919090;
+      font-weight: 500;
+      margin: 0;
+      padding: 0 5px;
+      background-color: rgb(236, 233, 233);
+  }
+  .recordList ul {
+    margin: 0;
+    background-color: rgb(217, 217, 217);
+  }
+  .recordList ul li {
+      padding: 10px 10px;
+      color: #101010;
+      font-size: 14px;
+      margin: 3px 0;
+  }
+  .recordList ul li .photo {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 5px;
+  }
+  .recordList ul li .photo img {
+      width: 100%;
+      height: 100%;
+  }
+  .recordList ul li p {
+      display: inline-block;
+  }
+  .recordList ul li .name {
+      font-size: 16px;
+      margin-left: 5px;
+  }
+  .recordList ul li .part {
+      color: #282626;
+      margin-left: 10px;
+  }

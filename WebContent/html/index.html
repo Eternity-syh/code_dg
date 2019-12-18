@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="js/jquery-1.8.3.min.js"></script>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+  <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+  <script type="text/javascript" src="/code_dg/js/index.js"></script>
+  <title></title>
+  <style>
+    .list input{display: none;}
+    .weui-toptips{line-height: 44px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top" id="image">
+      
+    </div>
+    <div class="content">
+      <div class="hd">
+        <p>
+            <span class="time">剩余时间5分00秒</span>
+            <span class="right">
+              <input type="text" value="搜索部门/姓名" class="search">
+              <a href="record.html" class="record">投票记录</a>
+            </span>
+        </p>
+      </div>
+      <ul class="list" id="ulul">
+      
+       
+      </ul>
+      <div class="bd">
+        <p>
+          <span class="num"></span>
+          <span class="right">
+            <span class="sel">已选中0票</span>
+            <a href="javascript:;" class="btn" id="aaaa">一键投票</a>
+            
+          </span>
+        </p>
+      </div>
+    </div>
+    <!-- 确认投票 -->
+    <div class="cover" style="display: none;">
+      <div class="conf">
+        <h3>确认投票</h3>
+        <p class="yp">您当前剩余10票</p>
+        <p class="xz">确定投给选中的5人</p>
+        <div class="button">
+          <div class="cancel">取消</div>
+          <div class="confirm">确定</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 投票成功 -->
+    <!-- <div class="succ" style="display: none;">
+      <p>投票成功！</p>
+    </div> -->
+    <!-- 投票结束 -->
+    <div class="mask" style="display: none;">
+      <div class="tanc">
+        <p>投票已结束！</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var x = 5,interval;
+      var time = new Date('2222/2/2, 0:'+x+':0');
+      interval = setInterval(function() {
+          var m = time.getMinutes();
+          var s = time.getSeconds();
+          m = '' + m;
+          s = s < 10 ? ('0' + s) : ('' + s);
+          $('.time').html('剩余时间'+m+'分'+s+'秒');
+          if(m == 0 && s == 0) {
+              clearInterval(interval);
+              $('.mask').show();
+              return;
+          }
+          time.setSeconds(s-1);
+      },1000)
+    }
+    
+    
+   $.ajax({
+		  url:"/code_dg/num",
+		  type:"post",
+		  success:function(response){
+			  alert(response)
+			    $.each(response,function(i,v){
+  				  $(".num").html("剩余票数："+v.num1)
+  			  })
+				 
+		  
+		  }
+	  })
+	
+	function num(){
+	   var chk_value =[]; 
+	    $('input[type="checkbox"]:checked').each(function(){ 
+	        chk_value.push(this.value); //push 进数组
+	    });
+        $.ajax({
+  		  url:"/code_dg/num",
+  		  type:"post",
+  		  success:function(response){
+  			  $.each(response,function(i,v){
+  			      var a=$("input[type='checkbox']:checked").length;
+  			   		var a1=v.num1-a
+  			        $('.num').html('剩余票数：'+a1);
+  			        $('.sel').html('已选中'+a+'票');
+  			        if(a1==0){
+  			        	alert("当期票数已用完")
+  			        }else{
+  			          $('.btn').click(function() {
+  			    		  $.confirm({
+    			    	        title: '确认投票',
+    			    	        text: '<p>您当前剩余'+a1+'票</p><p>确定投给选中的'+a+'人</p>',
+    			    	        onOK: function () {
+    			    	        	$.ajax({
+    			    	        		url:"/code_dg/jiafen",
+    			    	        		type:"post",
+    			    	        		traditional: true,
+    			    	        		data:{
+    			    	        			 "id": chk_value
+    			    	        		},
+    			    	        		success:function(){
+    			    	        			 $.toast("投票成功！"); 
+    			    		    	          location.reload();
+    			    	        		}
+    			    	        	}) 
+    			    	       }
+    			      });    
+  			      })
+  			        }
+  			  })
+  		  }
+  	  })
+	   
+   }
+   
+  </script>
+</body>
+</html>
