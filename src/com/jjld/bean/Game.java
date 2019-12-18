@@ -8,6 +8,7 @@ import org.nutz.dao.entity.annotation.Table;
 
 //赛事表，设置活动名及上方背景图信息
 @Table("game")
+
 public class Game extends BasePojo {
 	@Id
 	private long id;
