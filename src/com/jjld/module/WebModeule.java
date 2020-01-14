@@ -22,7 +22,7 @@ import com.jjld.bean.Vote;
 public class WebModeule {
 	@Inject
 	private Dao dao;
-	@At("/weblook")
+	@At("/weblook") 
 	public  List<Game_join_player> lookTest(@Param("game") int game) {
 		List<Game_join_player> gjp = null;
 		Game fetch = dao.fetch(Game.class, Cnd.wrap("id="+game+""));
